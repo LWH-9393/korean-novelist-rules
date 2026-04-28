@@ -17,7 +17,6 @@
 | `SKILL.md` | **Skills 표준** (frontmatter 기반 자동 트리거) — Claude Code, Cowork, Codex, Antigravity 등 다수의 에이전트가 채택한 공용 스킬 포맷 | 각 에이전트의 스킬 디렉토리에 두면 `description` 매칭으로 자동 트리거 |
 | `CLAUDE.md` | Claude Code의 디렉토리 컨텍스트 | 소설 작업 폴더에 복사하면 그 폴더 안에서 Claude Code가 자동으로 컨텍스트 로드 |
 | `AGENTS.md` | Codex CLI · OpenAI Codex · opencode · Aider 등 `AGENTS.md` 컨벤션을 따르는 코딩/글쓰기 에이전트 | 프로젝트 루트 또는 글로벌 지침 경로에 배치 |
-| `AGENTS.md` 또는 `PROMPT.md` | Cursor | `.cursorrules` / `.cursor/rules/*.mdc`로 복사 |
 | `PROMPT.md` | ChatGPT · Claude.ai · Gemini · 기타 챗 LLM, 자체 에이전트 | `=== PROMPT START ===` ~ `=== PROMPT END ===` 구간을 시스템/커스텀 프롬프트에 붙여넣기 |
 
 ---
@@ -105,14 +104,6 @@ cp korean-novelist-rules/AGENTS.md ./AGENTS.md   # 작업할 소설 디렉토리
 
 `AGENTS.md` 내용을 `~/.codex/instructions.md`(또는 사용 중인 에이전트의 글로벌 지침 경로)에 추가합니다.
 
-### Cursor
-
-`AGENTS.md` 또는 `PROMPT.md`의 본문을 프로젝트 루트의 `.cursorrules`로 복사하거나, `.cursor/rules/korean-novelist-rules.mdc`로 저장합니다.
-
-```bash
-cp korean-novelist-rules/AGENTS.md .cursorrules
-```
-
 ### ChatGPT · Claude.ai · Gemini 등 챗 LLM
 
 `PROMPT.md`를 열어 `=== PROMPT START ===` 부터 `=== PROMPT END ===` 사이의 내용을 복사한 뒤:
@@ -156,7 +147,7 @@ korean-novelist-rules/
 ├── README.md      # 이 파일
 ├── SKILL.md       # Skills 표준 (frontmatter 포함, name+description 자동 매칭). Claude Code · Cowork · Codex · Antigravity 등에서 공용
 ├── CLAUDE.md      # Claude Code 디렉토리 컨텍스트
-├── AGENTS.md      # Codex CLI · OpenAI Codex · opencode · Aider · Cursor 등
+├── AGENTS.md      # Codex CLI · OpenAI Codex · opencode · Aider 등
 └── PROMPT.md      # 챗 LLM 시스템 프롬프트용
 ```
 
