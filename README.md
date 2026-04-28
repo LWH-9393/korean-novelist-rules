@@ -1,6 +1,6 @@
 # korean-novelist-rules
 
-한국 소설 작법 **21계명**을 기준으로 원고를 진단하고 다듬는 Claude Code 스킬입니다.
+한국 소설 작법 **21계명**을 기준으로 원고를 진단하고 다듬는 **범용 에이전트 스킬**입니다.
 
 > "위반된 룰만 골라서 짚는다." — 21개 룰을 기계적으로 모두 적용하지 않습니다.
 
@@ -8,9 +8,23 @@
 
 ---
 
+## 지원 에이전트
+
+Claude Code뿐 아니라 `AGENTS.md`를 인식하는 모든 코딩/글쓰기 에이전트, 그리고 시스템 프롬프트를 받는 모든 챗 LLM에서 사용할 수 있습니다.
+
+| 에이전트 | 사용 파일 |
+|---|---|
+| Claude Code | `SKILL.md` (frontmatter 포함, 자동 트리거) |
+| Codex CLI · OpenAI Codex · opencode · Aider | `AGENTS.md` |
+| Cursor | `AGENTS.md` 또는 `PROMPT.md`를 `.cursorrules`로 복사 |
+| ChatGPT · Claude.ai · Gemini · 그 외 챗 LLM | `PROMPT.md` 의 `=== PROMPT START ===` ~ `=== PROMPT END ===` 구간을 시스템/커스텀 프롬프트에 붙여넣기 |
+| 그 외 자체 에이전트 | `PROMPT.md` 본문을 시스템 프롬프트로 사용 |
+
+---
+
 ## 무엇을 하는 스킬인가요
 
-소설 원고를 가져오면 Claude가 편집자가 되어 다음을 수행합니다.
+소설 원고를 가져오면 에이전트가 편집자가 되어 다음을 수행합니다.
 
 - **진단 모드 (기본)**: 원문은 건드리지 않고, 위반된 룰만 골라 지적·조언
 - **반영 모드 (요청 시)**: "고쳐줘", "다시 써줘"라고 하면 그제야 수정본을 만듭니다
@@ -49,7 +63,7 @@
 
 ## 설치
 
-이 저장소를 Claude Code의 사용자 스킬 디렉토리에 클론하면 끝납니다.
+### Claude Code
 
 ```bash
 mkdir -p ~/.claude/skills
@@ -57,13 +71,44 @@ cd ~/.claude/skills
 git clone https://github.com/LWH-9393/korean-novelist-rules.git
 ```
 
-설치 후 Claude Code를 새로 켜면 스킬 목록에 `korean-novelist-rules`가 나타납니다.
+설치 후 Claude Code를 새로 켜면 스킬 목록에 `korean-novelist-rules`가 자동으로 등록됩니다.
+
+### Codex CLI · opencode · Aider 등 (AGENTS.md 인식 에이전트)
+
+방법 A — **프로젝트 단위로 사용:**
+
+```bash
+git clone https://github.com/LWH-9393/korean-novelist-rules.git
+cp korean-novelist-rules/AGENTS.md ./AGENTS.md   # 작업할 소설 디렉토리에 복사
+```
+
+방법 B — **글로벌 지침으로 사용** (Codex CLI):
+
+`AGENTS.md` 내용을 `~/.codex/instructions.md`(또는 사용 중인 에이전트의 글로벌 지침 경로)에 추가합니다.
+
+### Cursor
+
+`AGENTS.md` 또는 `PROMPT.md`의 본문을 프로젝트 루트의 `.cursorrules`로 복사하거나, `.cursor/rules/korean-novelist-rules.mdc`로 저장합니다.
+
+```bash
+cp korean-novelist-rules/AGENTS.md .cursorrules
+```
+
+### ChatGPT · Claude.ai · Gemini 등 챗 LLM
+
+`PROMPT.md`를 열어 `=== PROMPT START ===` 부터 `=== PROMPT END ===` 사이의 내용을 복사한 뒤:
+
+- **ChatGPT**: Custom Instructions 또는 Custom GPT의 시스템 프롬프트에 붙여넣기
+- **Claude.ai**: Project의 Custom instructions에 붙여넣기
+- **Gemini**: Gem의 instructions에 붙여넣기
+
+이후 소설 원고를 붙여넣고 "내 소설 봐줘"처럼 요청하면 됩니다.
 
 ---
 
 ## 사용 방법
 
-소설 원고를 붙여넣고 아래 같은 문구로 요청하면 자동으로 발동합니다.
+설치 후, 소설 원고를 에이전트에게 주고 아래와 같이 요청합니다.
 
 - "내 소설 봐줘"
 - "21계명으로 진단해줘"
@@ -85,9 +130,23 @@ git clone https://github.com/LWH-9393/korean-novelist-rules.git
 
 ---
 
+## 파일 구조
+
+```
+korean-novelist-rules/
+├── README.md      # 이 파일
+├── SKILL.md       # Claude Code 전용 (frontmatter 포함)
+├── AGENTS.md      # Codex CLI · opencode · Aider · Cursor 등
+└── PROMPT.md      # 챗 LLM 시스템 프롬프트용
+```
+
+세 파일의 룰 본문은 동일합니다. 각 에이전트의 컨벤션에 맞춰 헤더와 메타 정보만 다릅니다.
+
+---
+
 ## 출처 / Credits
 
-소설 작법 21계명의 원래 아이디어와 정리는 [Threads @korgeek82](https://www.threads.com/@korgeek82?hl=ko) 님에게서 비롯되었습니다. 이 저장소는 그 내용을 Claude Code 스킬 형태로 옮긴 것입니다.
+소설 작법 21계명의 원래 아이디어와 정리는 [Threads @korgeek82](https://www.threads.com/@korgeek82?hl=ko) 님에게서 비롯되었습니다. 이 저장소는 그 내용을 다양한 에이전트에서 쓸 수 있는 형태로 옮긴 것입니다.
 
 ---
 
