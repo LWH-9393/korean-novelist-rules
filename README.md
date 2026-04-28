@@ -4,6 +4,8 @@
 
 > "위반된 룰만 골라서 짚는다." — 21개 룰을 기계적으로 모두 적용하지 않습니다.
 
+이 스킬은 [Threads @korgeek82](https://www.threads.com/@korgeek82?hl=ko) 님의 아이디어를 바탕으로 만들어졌습니다.
+
 ---
 
 ## 무엇을 하는 스킬인가요
@@ -80,6 +82,12 @@ git clone https://github.com/LWH-9393/korean-novelist-rules.git
 ## 작가의 의도 보호
 
 룰은 룰일 뿐입니다. 작가가 의도적으로 룰을 어겼다고 판단되는 경우 — 캐릭터 말투 안의 룰 위반, 1인칭 화자의 의식의 흐름, 시적 반복, 리듬을 위한 부사 — 짚지 않거나 "의도하신 것이라면 유지하시는 게 좋습니다"라고 덧붙입니다.
+
+---
+
+## 출처 / Credits
+
+소설 작법 21계명의 원래 아이디어와 정리는 [Threads @korgeek82](https://www.threads.com/@korgeek82?hl=ko) 님에게서 비롯되었습니다. 이 저장소는 그 내용을 Claude Code 스킬 형태로 옮긴 것입니다.
 
 ---
 
