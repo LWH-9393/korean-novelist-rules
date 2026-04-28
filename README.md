@@ -10,15 +10,15 @@
 
 ## 지원 에이전트
 
-Claude Code뿐 아니라 `AGENTS.md`를 인식하는 모든 코딩/글쓰기 에이전트, 그리고 시스템 프롬프트를 받는 모든 챗 LLM에서 사용할 수 있습니다.
+각 에이전트가 인식하는 표준 파일을 모두 제공합니다.
 
-| 에이전트 | 사용 파일 |
-|---|---|
-| Claude Code | `SKILL.md` (frontmatter 포함, 자동 트리거) |
-| Codex CLI · OpenAI Codex · opencode · Aider | `AGENTS.md` |
-| Cursor | `AGENTS.md` 또는 `PROMPT.md`를 `.cursorrules`로 복사 |
-| ChatGPT · Claude.ai · Gemini · 그 외 챗 LLM | `PROMPT.md` 의 `=== PROMPT START ===` ~ `=== PROMPT END ===` 구간을 시스템/커스텀 프롬프트에 붙여넣기 |
-| 그 외 자체 에이전트 | `PROMPT.md` 본문을 시스템 프롬프트로 사용 |
+| 사용 파일 | 사용처 | 적용 방식 |
+|---|---|---|
+| `SKILL.md` | **Skills 표준** (frontmatter 기반 자동 트리거) — Claude Code, Cowork, Codex, Antigravity 등 다수의 에이전트가 채택한 공용 스킬 포맷 | 각 에이전트의 스킬 디렉토리에 두면 `description` 매칭으로 자동 트리거 |
+| `CLAUDE.md` | Claude Code의 디렉토리 컨텍스트 | 소설 작업 폴더에 복사하면 그 폴더 안에서 Claude Code가 자동으로 컨텍스트 로드 |
+| `AGENTS.md` | Codex CLI · OpenAI Codex · opencode · Aider 등 `AGENTS.md` 컨벤션을 따르는 코딩/글쓰기 에이전트 | 프로젝트 루트 또는 글로벌 지침 경로에 배치 |
+| `AGENTS.md` 또는 `PROMPT.md` | Cursor | `.cursorrules` / `.cursor/rules/*.mdc`로 복사 |
+| `PROMPT.md` | ChatGPT · Claude.ai · Gemini · 기타 챗 LLM, 자체 에이전트 | `=== PROMPT START ===` ~ `=== PROMPT END ===` 구간을 시스템/커스텀 프롬프트에 붙여넣기 |
 
 ---
 
@@ -63,7 +63,11 @@ Claude Code뿐 아니라 `AGENTS.md`를 인식하는 모든 코딩/글쓰기 에
 
 ## 설치
 
-### Claude Code
+### Skills 표준 (Claude Code, Cowork, Codex, Antigravity 등)
+
+`SKILL.md`의 frontmatter(`name` + `description`)를 보고 자동 트리거하는 모든 스킬 호환 에이전트에서 사용할 수 있습니다. 각 에이전트의 스킬 디렉토리에 폴더째로 두면 됩니다.
+
+**Claude Code**
 
 ```bash
 mkdir -p ~/.claude/skills
@@ -71,7 +75,22 @@ cd ~/.claude/skills
 git clone https://github.com/LWH-9393/korean-novelist-rules.git
 ```
 
-설치 후 Claude Code를 새로 켜면 스킬 목록에 `korean-novelist-rules`가 자동으로 등록됩니다.
+**Codex / Antigravity / 그 외 스킬 호환 에이전트**
+
+각 에이전트의 사용자 스킬 디렉토리(예: `~/.codex/skills/`, Antigravity의 스킬 폴더 등) 아래에 동일하게 클론합니다. 정확한 경로는 해당 에이전트의 스킬 문서를 확인하세요.
+
+설치 후 에이전트를 새로 켜면 스킬 목록에 `korean-novelist-rules`가 등록되고, 트리거 문장(예: "내 소설 봐줘")을 말하면 발동합니다.
+
+### Claude Code — 디렉토리 컨텍스트 (특정 소설 폴더에서만 적용)
+
+소설 작업 폴더에 `CLAUDE.md`만 복사해두면, 그 폴더에서 Claude Code를 켤 때 자동으로 21계명 지침이 컨텍스트로 로드됩니다.
+
+```bash
+# 소설 작업 폴더에서
+curl -O https://raw.githubusercontent.com/LWH-9393/korean-novelist-rules/main/CLAUDE.md
+```
+
+작품마다 다른 룰셋을 쓰고 싶을 때, 또는 스킬 시스템을 쓰지 않고 폴더 단위로 적용하고 싶을 때 유용합니다.
 
 ### Codex CLI · opencode · Aider 등 (AGENTS.md 인식 에이전트)
 
@@ -135,12 +154,13 @@ cp korean-novelist-rules/AGENTS.md .cursorrules
 ```
 korean-novelist-rules/
 ├── README.md      # 이 파일
-├── SKILL.md       # Claude Code 전용 (frontmatter 포함)
-├── AGENTS.md      # Codex CLI · opencode · Aider · Cursor 등
+├── SKILL.md       # Skills 표준 (frontmatter 포함, name+description 자동 매칭). Claude Code · Cowork · Codex · Antigravity 등에서 공용
+├── CLAUDE.md      # Claude Code 디렉토리 컨텍스트
+├── AGENTS.md      # Codex CLI · OpenAI Codex · opencode · Aider · Cursor 등
 └── PROMPT.md      # 챗 LLM 시스템 프롬프트용
 ```
 
-세 파일의 룰 본문은 동일합니다. 각 에이전트의 컨벤션에 맞춰 헤더와 메타 정보만 다릅니다.
+네 파일의 21계명 본문은 동일합니다. 각 에이전트의 컨벤션(frontmatter 유무, 헤더 톤, 트리거 표현)에 맞춰 도입부와 메타 정보만 다릅니다.
 
 ---
 
